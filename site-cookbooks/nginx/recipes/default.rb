@@ -16,6 +16,7 @@ service "nginx" do
     action [ :enable, :start ]
 end
 
+=begin
 template "nginx.conf" do
     path "/etc/nginx/nginx.conf"
     source "nginx.conf.erb"
@@ -24,4 +25,5 @@ template "nginx.conf" do
     mode 0644
     notifies :reload, 'service[nginx]'
 end
+=end
 
