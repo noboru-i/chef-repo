@@ -19,13 +19,12 @@ end
 bash 'download jetty' do
     cwd '/opt'
     code <<EOC
-wget "http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.0.5.v20130815.tar.gz&r=1"
-mv "download.php?file=%2Fjetty%2Fstable-9%2Fdist%2Fjetty-distribution-9.0.5.v20130815.tar.gz&r=1" "jetty-distribution-9.0.5.v20130815.tar.gz"
+wget "http://central.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.5.v20130815/jetty-distribution-9.0.5.v20130815.tar.gz"
 tar zxvf jetty-distribution-9.0.5.v20130815.tar.gz
 mv jetty-distribution-9.0.5.v20130815 jetty
 chown -R jetty:jetty /opt/jetty
 EOC
-    only_if { !File.exists?('/opt/jetty') }
+    not_if { File.exists?('/opt/jetty/bin') }
 end
 
 bash 'copy script' do
