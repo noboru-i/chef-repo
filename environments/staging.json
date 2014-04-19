@@ -1,0 +1,18 @@
+{
+  "name": "staging",
+  "description":"",
+  "chef_type": "environment",
+  "json_class": "Chef::Environment",
+  "default_attributes": {
+    "user": "ubuntu",
+    "database": {
+      "host": "localhost",
+      "password": "password",
+      "name": "stg_db"
+    },
+    "nginx": {
+      "port": 58080
+    }
+  },
+  "override_attributes": {}
+}

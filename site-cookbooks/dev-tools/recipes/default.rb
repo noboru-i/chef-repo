@@ -11,14 +11,6 @@ bash "apt update" do
     code 'apt-get update'
 end
 
-%w(curl git-core vim).each do |pkg|
+%w(curl git-core vim unzip).each do |pkg|
     package pkg
 end
-
-# bash "set dotfiles" do
-#     user 'vagrant'
-#     cwd '/home/vagrant'
-#     code "curl https://raw.github.com/gist/5901503 | bash"
-#     creates '/home/vagrant/.dotfiles'
-# end
-
