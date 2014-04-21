@@ -7,8 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-home_dir = '/home/vagrant'
-version = '2.0.0-p247'
+user = node[:rbenv][:user]
+group = node[:rbenv][:group] || user
+home_dir = "/home/#{user}"
+version = node[:rbenv][:version]
 
 package 'build-essential'
 
@@ -16,13 +18,13 @@ git "#{home_dir}/.rbenv" do
     repository 'https://github.com/sstephenson/rbenv.git'
     reference 'master'
     action :checkout
-    user 'vagrant'
-    group 'vagrant'
+    user user
+    group group
 end
 
 directory "#{home_dir}/.rbenv/plugins" do
-    owner 'vagrant'
-    group 'vagrant'
+    owner user
+    group group
     action :create
 end
 
@@ -30,26 +32,23 @@ git "#{home_dir}/.rbenv/plugins/ruby-build" do
     repository 'https://github.com/sstephenson/ruby-build.git'
     reference 'master'
     action :checkout
-    user 'vagrant'
-    group 'vagrant'
+    user user
+    group group
 end
 
-script 'export path' do
-    interpreter 'bash'
-    not_if 'which rbenv'
-    user 'vagrant'
-    group 'vagrant'
+bash 'export path' do
+    user user
+    group group
     code <<-EOC
         echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> #{home_dir}/.profile
         echo 'eval "$(rbenv init -)"' >> #{home_dir}/.profile
     EOC
+    not_if 'which rbenv'
 end
 
-script 'install ruby' do
-    interpreter 'bash'
-    user 'vagrant'
-    group 'vagrant'
-    not_if "#{home_dir}/.rbenv/bin/rbenv versions | grep #{version}"
+bash 'install ruby' do
+    user user
+    group group
     environment 'HOME' => home_dir
     code <<-EOC
         eval "$(rbenv init -)"
@@ -57,4 +56,5 @@ script 'install ruby' do
         #{home_dir}/.rbenv/bin/rbenv rehash
         #{home_dir}/.rbenv/bin/rbenv global #{version}
     EOC
+    not_if "#{home_dir}/.rbenv/bin/rbenv versions | grep #{version}"
 end

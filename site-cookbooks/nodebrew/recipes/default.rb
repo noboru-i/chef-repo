@@ -14,51 +14,26 @@ $path  = "#{$home}/.nodebrew/current/bin"
 
 package 'curl'
 
-remote_file "/tmp/nodebrew" do
-    source "http://git.io/nodebrew"
-    mode 0777
-end
-
-script "setup" do
-    interpreter "bash"
+bash "setup" do
     user  $user
     group $group
     cwd   $home
     environment "HOME" => $home
-    code "perl /tmp/nodebrew setup"
-end
-
-script "add path" do
-    interpreter "bash"
-    user  $user
-    group $group
-    cwd   $home
     code <<-EOC
-echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> #{$home}/.bashrc
+        curl -L git.io/nodebrew | perl - setup
+        echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> #{$home}/.bashrc
     EOC
-    not_if "grep \"export PATH=$HOME/.nodebrew/current/bin:$PATH\" #{$home}/.bashrc", :user => $user
+    not_if "which nodebrew"
 end
 
-script "install-binary" do
-    interpreter "bash"
+bash "install-binary and use" do
     user  $user
     group $group
     cwd   $home
     environment "HOME" => $home
     code  <<-EOC
-#{$path}/nodebrew install-binary stable
-if [ $? -eq 1 ]; then
-    exit 0
-fi
+        #{$path}/nodebrew install-binary stable
+        #{$path}/nodebrew use stable
     EOC
+    not_if "which node"
 end
-
-script "use" do
-    interpreter "bash"
-    user  $user
-    group $group
-    cwd   $home
-    environment "HOME" => $home
-    code  "#{$path}/nodebrew use stable"
-end
-

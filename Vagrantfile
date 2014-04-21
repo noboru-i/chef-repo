@@ -25,18 +25,22 @@ Vagrant.configure("2") do |config|
     chef.environment = "local"
 
     chef.json = {
-#        :nginx => {
-#            :port => 80
-#        },
-#        :nodebrew => {
-#            :user => "vagrant"
-#        }
+      # :nginx => {
+      #   :port => 80
+      # },
+      # :nodebrew => {
+      #   :user => "vagrant"
+      # },
+      :rbenv => {
+        :user => "vagrant",
+        :version => "2.0.0-p451"
+      }
     }
     chef.add_recipe("dev-tools")
 #    chef.add_recipe("nginx")
 #    chef.add_recipe("jenkins")
 #    chef.add_recipe("nodebrew")
-#    chef.add_recipe("rbenv")
+    chef.add_recipe("rbenv")
 #    chef.add_recipe("oracle-java7")
 #    chef.add_recipe("mariadb")
 #    chef.add_recipe("jetty")
