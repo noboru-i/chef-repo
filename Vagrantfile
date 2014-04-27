@@ -36,7 +36,8 @@ Vagrant.configure("2") do |config|
       #   :version => "2.0.0-p451"
       # }
       :database => {
-        :type => "mysql",
+      #  :type => "mysql",
+        :type => "postgresql",
         :host => "localhost",
         :name => "sample_db",
         :user => "web",
@@ -51,7 +52,8 @@ Vagrant.configure("2") do |config|
 #    chef.add_recipe("oracle-java7")
 #    chef.add_recipe("mariadb")
 #    chef.add_recipe("jetty")
-    chef.add_recipe("mysql")
+#    chef.add_recipe("mysql")
+    chef.add_recipe("postgresql")
     chef.add_recipe("database-prepare")
   end
 end
