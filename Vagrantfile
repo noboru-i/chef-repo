@@ -40,9 +40,10 @@ Vagrant.configure("2") do |config|
 #    chef.add_recipe("nginx")
 #    chef.add_recipe("jenkins")
 #    chef.add_recipe("nodebrew")
-    chef.add_recipe("rbenv")
+#    chef.add_recipe("rbenv")
 #    chef.add_recipe("oracle-java7")
 #    chef.add_recipe("mariadb")
 #    chef.add_recipe("jetty")
+    chef.add_recipe("mysql")
   end
 end
