@@ -1,0 +1,17 @@
+<%
+host = node[:database][:host]
+name = node[:database][:name]
+user = node[:database][:user]
+password = node[:database][:password]
+%>
+<% if host == 'localhost' %>
+CREATE DATABASE IF NOT EXISTS `<%= name %>` DEFAULT CHARACTER SET utf8;
+
+CREATE DATABASE IF NOT EXISTS `<%= name %>_test` DEFAULT CHARACTER SET utf8;
+GRANT ALL PRIVILEGES ON `<%= name %>_test`.* TO <%= user %>@localhost IDENTIFIED BY '<%= password %>';
+GRANT ALL PRIVILEGES ON `<%= name %>_test`.* TO <%= user %>@"%" IDENTIFIED BY '<%= password %>';
+<% end %>
+
+GRANT ALL PRIVILEGES ON `<%= name %>`.* TO <%= user %>@localhost IDENTIFIED BY '<%= password %>';
+GRANT ALL PRIVILEGES ON `<%= name %>`.* TO <%= user %>@"%" IDENTIFIED BY '<%= password %>';
+FLUSH PRIVILEGES;

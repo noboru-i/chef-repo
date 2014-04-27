@@ -31,9 +31,16 @@ Vagrant.configure("2") do |config|
       # :nodebrew => {
       #   :user => "vagrant"
       # },
-      :rbenv => {
-        :user => "vagrant",
-        :version => "2.0.0-p451"
+      # :rbenv => {
+      #   :user => "vagrant",
+      #   :version => "2.0.0-p451"
+      # }
+      :database => {
+        :type => "mysql",
+        :host => "localhost",
+        :name => "sample_db",
+        :user => "web",
+        :password => "password"
       }
     }
     chef.add_recipe("dev-tools")
@@ -45,5 +52,6 @@ Vagrant.configure("2") do |config|
 #    chef.add_recipe("mariadb")
 #    chef.add_recipe("jetty")
     chef.add_recipe("mysql")
+    chef.add_recipe("database-prepare")
   end
 end
