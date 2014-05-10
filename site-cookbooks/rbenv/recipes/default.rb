@@ -43,7 +43,7 @@ bash 'export path' do
         echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> #{home_dir}/.profile
         echo 'eval "$(rbenv init -)"' >> #{home_dir}/.profile
     EOC
-    not_if 'which rbenv'
+    not_if "cat #{home_dir}/.bash_profile | grep '$HOME/.rbenv/bin:$PATH'"
 end
 
 bash 'install ruby' do
